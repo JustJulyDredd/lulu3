@@ -60,6 +60,7 @@ EXTENSIONS = [
 
 @bot.event
 async def on_ready() -> None:
+    assert bot.user is not None
     logger.info("Bot connected as %s (ID: %s)", bot.user.name, bot.user.id)
 
     try:
@@ -69,7 +70,7 @@ async def on_ready() -> None:
         logger.error("Failed to sync slash commands: %s", error)
 
 
-async def main():
+async def main() -> None:
     async with bot:
         for ext in EXTENSIONS:
             try:
@@ -79,6 +80,7 @@ async def main():
                 logger.error("Failed to load extension %s: %s", ext, error)
 
         config.validate_config()
+        assert config.DISCORD_TOKEN is not None
         await bot.start(config.DISCORD_TOKEN)
 
 
