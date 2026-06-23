@@ -9,3 +9,6 @@ lulu_bot.db
 lulu_bot.db-shm
 lulu_bot.db-wal
 lulu_logs.txt
+
+# Local tools
+.bin/
