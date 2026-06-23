@@ -520,3 +520,40 @@ def get_tictactoe_leaderboard(limit: int = 10) -> List[Dict]:
             (limit,),
         )
         return [dict(row) for row in cursor.fetchall()]
+
+
+# --- BORRADO DE DATOS DE USUARIO ---
+
+def delete_user_data(user_id: int) -> None:
+    """Borra todos los datos de un usuario: perfil, memorias, cumpleaños, stats e historial."""
+    with get_db_connection() as conn:
+        conn.execute("DELETE FROM user_profiles WHERE user_id = ?", (user_id,))
+        conn.execute("DELETE FROM image_memories WHERE user_id = ?", (user_id,))
+        conn.execute("DELETE FROM birthdays WHERE user_id = ?", (user_id,))
+        conn.execute("DELETE FROM conversation_history WHERE user_id = ?", (user_id,))
+        conn.execute("DELETE FROM trivia_stats WHERE user_id = ?", (user_id,))
+        conn.execute("DELETE FROM rps_stats WHERE user_id = ?", (user_id,))
+        conn.execute("DELETE FROM tictactoe_stats WHERE user_id = ?", (user_id,))
+        conn.execute("DELETE FROM bump_stats WHERE user_id = ?", (user_id,))
+        conn.commit()
+
+
+# --- ACTIVIDAD RECIENTE DEL SERVIDOR ---
+
+def get_recent_server_activity(limit: int = 20) -> List[Dict]:
+    """Obtiene los mensajes más recientes de todos los canales."""
+    with get_db_connection() as conn:
+        cursor = conn.execute(
+            """
+            SELECT user_id, username, message_content, timestamp, is_bot
+            FROM conversation_history
+            ORDER BY timestamp DESC
+            LIMIT ?
+            """,
+            (limit,),
+        )
+        rows = cursor.fetchall()
+        history = [dict(row) for row in rows]
+        history.reverse()
+        return history
+
