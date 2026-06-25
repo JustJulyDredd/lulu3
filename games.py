@@ -298,65 +298,38 @@ def get_rps_view() -> tuple[discord.Embed, RPSView]:
     return embed, view
 
 
-async def get_trivia_question() -> tuple[discord.Embed, TriviaView]:
-    """Genera un embed y view con una pregunta de trivia aleatoria usando LLM."""
-    
-    categorias = [
-        "historia mundial", "geografía", "ciencia y biología", 
-        "química", "tecnología e informática", "videojuegos retro", 
-        "videojuegos modernos", "cine de Hollywood", "series de televisión",
-        "anime y manga", "música pop contemporánea", "deportes y olimpiadas",
-        "arte y pintura", "literatura clásica", "mitología griega o nórdica", 
-        "cultura general de internet", "animales extraños", "inventos históricos"
-    ]
-    dificultades = ["fácil", "intermedio", "difícil", "para expertos"]
-    
-    cat = random.choice(categorias)
-    dif = random.choice(dificultades)
-    seed = random.randint(1, 999999)
+_trivia_bank = None
 
-    prompt = (
-        f"Genera una pregunta de trivia de opción múltiple ÚNICA sobre el tema '{cat}'. "
-        f"El nivel de dificultad debe ser '{dif}'. "
-        f"(Semilla de aleatoriedad para forzar una pregunta distinta: {seed}). "
-        "Prohibido hacer preguntas sobre cuál es el planeta más grande o más caliente, inventa algo muy original. "
-        "Debe ser en español. Asegúrate de que la pregunta y las opciones no contengan ningún error de codificación y que el formato JSON sea perfecto. "
-        "Solo devuelve un objeto JSON válido, NADA de texto extra, ni bloques markdown de código ```json. "
-        "El JSON debe tener este formato estricto:\n"
-        "{\n"
-        "  \"question\": \"¿La pregunta aquí?\",\n"
-        "  \"options\": [\"Opción A\", \"Opción B\", \"Opción C\", \"Opción D\"],\n"
-        "  \"answer\": 0\n"
-        "}\n"
-        "Nota: 'answer' es un número del 0 al 3 que indica el índice de la respuesta correcta dentro del array 'options'."
-    )
+def _load_trivia_bank():
+    global _trivia_bank
+    if _trivia_bank is not None:
+        return _trivia_bank
     
-    try:
-        response_text = await llm.generate_response(
-            messages=[{"role": "user", "content": prompt}],
-            system_prompt="Eres un asistente útil que responde SOLAMENTE con un JSON válido. Ningún otro texto.",
-            temperature=1.0,
-        )
-        
-        # Limpiar la respuesta por si el modelo pone basura de markdown
-        clean_text = response_text.replace("```json", "").replace("```", "").strip()
-        question_data = json.loads(clean_text)
-        
-        # Validar la estructura
-        if "question" not in question_data or "options" not in question_data or "answer" not in question_data:
-            raise ValueError("Missing keys in JSON")
-        if len(question_data["options"]) != 4:
-            raise ValueError("Options list must have 4 items")
-        
-        question_data["answer"] = int(question_data["answer"])
+    import os
+    path = "trivia_bank.json"
+    if os.path.exists(path):
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                _trivia_bank = json.load(f)
+                return _trivia_bank
+        except Exception as e:
+            print(f"Error loading trivia_bank.json: {e}")
             
-    except Exception as e:
-        # Pregunta de emergencia por si algo falla (porque a veces las APIs se mueren)
-        question_data = {
-            "question": "¿En qué año se lanzó Discord? (Ups, me distraje un momento 😅)",
+    # Fallback de emergencia
+    _trivia_bank = [
+        {
+            "question": "¿En qué año se lanzó Discord? (Ups, no encontré mi archivo de preguntas 😅)",
             "options": ["2013", "2014", "2015", "2016"],
             "answer": 2
         }
+    ]
+    return _trivia_bank
+
+
+async def get_trivia_question() -> tuple[discord.Embed, TriviaView]:
+    """Genera un embed y view con una pregunta de trivia aleatoria desde el banco local."""
+    bank = _load_trivia_bank()
+    question_data = random.choice(bank)
 
     options_text = "\n".join(
         f"**{OPTION_LABELS[i]})** {opt}"

@@ -57,7 +57,7 @@ def is_disboard_bump_message(message: discord.Message) -> bool:
             "[DISBOARD MSG] content='%s' | embeds=%s | interaction=%s | type=%s",
             message.content[:100],
             len(message.embeds),
-            message.interaction,
+            interaction_meta,
             message.type,
         )
 

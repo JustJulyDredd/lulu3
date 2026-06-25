@@ -19,27 +19,37 @@ Lulu es una morra de 16 años, originaria del planeta **Nebulon-9**, que pasa su
 
 ## 🚀 Características Principales
 
-### 1. Memoria a Largo Plazo Adaptativa 🧠
-A diferencia de otros bots, Lulu tiene memoria persistente integrada con una base de datos SQLite. Periódicamente consolida los recuerdos de las conversaciones con cada usuario para actualizar su perfil:
-* Gustos y pasatiempos compartidos.
-* Actitud del usuario hacia ella (amigable, tóxica, grosera).
-* Tono sugerido de respuesta y nivel de confianza (nula, baja, media, alta, muchísima).
+### 1. Arquitectura Modular en Cogs 📦
+El bot está completamente modularizado usando la extensión de Cogs de `discord.py` para facilitar su mantenimiento y escalabilidad:
+* `cogs.bump`: Control de comandos de bump, tiempos de espera, ranking y recordatorios automáticos.
+* `cogs.conversation`: Manejo del chat conversacional dinámico, agrupado inteligente de mensajes y análisis de imágenes.
+* `cogs.minigames`: Gestión de juegos interactivos (`/rps`, `/gato`, `/trivia`) y sus respectivos tableros de líderes.
+* `cogs.social`: Comandos de comunidad como memoria (`/remember`), cumpleaños (`/cumple`), estado de ánimo (`/humor`) y privacidad (`/olvidar`).
+* `cogs.ambient`: Rotación automática de estados/actividades y respuestas espontáneas en canales configurados.
 
-### 2. Comandos de Barra (Slash Commands) 🎮
+### 2. Memoria a Largo Plazo Adaptativa 🧠
+A diferencia de otros bots, Lulu tiene memoria persistente integrada con una base de datos SQLite. Periódicamente consolida los recuerdos de las conversaciones con cada usuario para actualizar su perfil de forma automática:
+* Gustos, pasatiempos e información compartida.
+* Actitud del usuario hacia ella (amigable, tóxica, grosera).
+* Tono de respuesta adecuado y nivel de confianza (nula, baja, media, alta, muchísima).
+
+### 3. Comandos de Barra (Slash Commands) e Interacción 🎮
 Lulu incluye un repertorio de comandos interactivos y minijuegos:
 * `/remember`: Consulta qué recuerdos y nivel de confianza tiene Lulu sobre ti.
 * `/cumple`: Registra tu cumpleaños para que Lulu te felicite cuando llegue el día.
 * `/gato`: Juega al Tres en Raya (Tic Tac Toe) contra Lulu o contra un amigo en el chat.
 * `/rps`: Juega a Piedra, Papel o Tijera contra la IA o contra otro usuario.
-* `/trivia`: Lulu te hará una pregunta de cultura general para ponerte a prueba.
+* `/trivia` (¡Optimizado! ⚡): Pregunta de cultura general aleatoria elegida instantáneamente desde una base de datos local de 150 preguntas sin latencia de API.
 * `/ranking_juegos`: Muestra la tabla de clasificación de los mejores jugadores de minijuegos.
 * `/status`: Consulta cuánto tiempo falta para poder volver a usar el comando de bump de Disboard.
 * `/ranking`: Muestra el ranking de miembros del servidor según su cantidad de bumps realizados.
+* `/humor` (¡Nuevo! 🎭): Pregúntale a Lulu cómo se siente en este momento basándose en la actividad reciente del servidor.
+* `/olvidar` (¡Nuevo! ⚠️): Permite a un usuario purgar de forma permanente todos sus datos de la base de datos de Lulu (cumpleaños, perfil, memorias, stats de juego e historial de chat) por privacidad.
 
-### 3. Recordatorio de Bumps (Disboard) ⏰
+### 4. Recordatorio de Bumps (Disboard) ⏰
 Monitorea los comandos de bump del servidor y notifica en el canal configurado cuando el servidor esté listo para ser "empujado" nuevamente.
 
-### 4. Modo Lurker (Lurking) 👾
+### 5. Modo Ambient / Lurker 👾
 Lulu puede "espiar" canales específicos y responder de forma espontánea para sumarse a la conversación de manera casual y natural.
 
 ---
