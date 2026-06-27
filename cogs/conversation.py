@@ -175,11 +175,10 @@ async def handle_spam_response(message: discord.Message) -> None:
             await message.reply("ya wey, tranquilo 😒 espera un rato va?", mention_author=False)
 
 
-# --- Buffer de mensajes ---
+# --- Cola de mensajes por canal ---
 
-_pending_messages: Dict[Tuple[int, int], List[discord.Message]] = {}
-_pending_tasks: Dict[Tuple[int, int], asyncio.Task] = {}
-BUFFER_WAIT_SECONDS = 2.5
+_channel_queues: Dict[int, asyncio.Queue] = {}
+_channel_tasks: Dict[int, asyncio.Task] = {}
 
 
 class ConversationCog(commands.Cog):
@@ -223,66 +222,60 @@ class ConversationCog(commands.Cog):
             if check_spam(message.author.id):
                 await handle_spam_response(message)
                 return
-            await self._handle_conversation(message)
+            await self._enqueue_message(message)
 
-    async def _handle_conversation(self, message: discord.Message) -> None:
-        """Agrupa mensajes del mismo usuario antes de responder."""
-        key = (message.channel.id, message.author.id)
+    async def _enqueue_message(self, message: discord.Message) -> None:
+        """Encola el mensaje para ser procesado secuencialmente en su canal."""
+        channel_id = message.channel.id
 
-        if key not in _pending_messages:
-            _pending_messages[key] = []
-        _pending_messages[key].append(message)
+        if channel_id not in _channel_queues:
+            _channel_queues[channel_id] = asyncio.Queue()
+            _channel_tasks[channel_id] = asyncio.create_task(self._process_queue(channel_id))
 
-        if key in _pending_tasks and not _pending_tasks[key].done():
-            _pending_tasks[key].cancel()
+        await _channel_queues[channel_id].put(message)
 
-        _pending_tasks[key] = asyncio.create_task(self._process_after_delay(key))
+    async def _process_queue(self, channel_id: int) -> None:
+        """Procesa mensajes en orden para un canal específico."""
+        while True:
+            try:
+                message: discord.Message = await _channel_queues[channel_id].get()
+                await self._process_single_message(message)
+                _channel_queues[channel_id].task_done()
+            except asyncio.CancelledError:
+                break
+            except Exception as e:
+                logger.error(f"Error processing message in channel {channel_id}: {e}")
 
-    async def _process_after_delay(self, key: Tuple[int, int]) -> None:
-        await asyncio.sleep(BUFFER_WAIT_SECONDS)
-
-        messages = _pending_messages.pop(key, [])
-        _pending_tasks.pop(key, None)
-
-        if not messages:
-            return
-
-        last_message = messages[-1]
-        channel_id = last_message.channel.id
-        author = last_message.author
+    async def _process_single_message(self, message: discord.Message) -> None:
+        """Procesa un único mensaje y responde."""
+        channel_id = message.channel.id
+        author = message.author
 
         profile = database.get_user_profile(author.id, author.name)
         database.increment_user_interactions(author.id)
 
-        all_parts: List[str] = []
         all_images: List[dict[str, str]] = []
 
-        for msg in messages:
-            content = msg.content
-            if self.bot.user in msg.mentions:
-                content = content.replace(f"<@{self.bot.user.id}>", "").replace(f"<@!{self.bot.user.id}>", "")
-            content = content.strip()
-            if content:
-                all_parts.append(content)
+        content = message.content
+        if self.bot.user in message.mentions:
+            content = content.replace(f"<@{self.bot.user.id}>", "").replace(f"<@!{self.bot.user.id}>", "")
+        clean_content = content.strip()
 
-            if has_images(msg):
-                extracted = await extract_images(msg)
-                all_images.extend(extracted)
-
-        clean_content = " ".join(all_parts)
+        if has_images(message):
+            extracted = await extract_images(message)
+            all_images.extend(extracted)
 
         if not clean_content and not all_images:
-            await last_message.reply("🛸 ¿Sí? ¡Aquí estoy! Dime qué onda 👾", mention_author=False)
+            await message.reply("🛸 ¿Sí? ¡Aquí estoy! Dime qué onda 👾", mention_author=False)
             return
 
-        first_message = messages[0]
         if (
-            first_message.reference is not None
-            and first_message.reference.resolved is not None
-            and isinstance(first_message.reference.resolved, discord.Message)
-            and first_message.reference.resolved.author == self.bot.user
+            message.reference is not None
+            and message.reference.resolved is not None
+            and isinstance(message.reference.resolved, discord.Message)
+            and message.reference.resolved.author == self.bot.user
         ):
-            quoted_content = first_message.reference.resolved.content
+            quoted_content = message.reference.resolved.content
             if quoted_content:
                 clean_content = f'[Respondiendo a tu mensaje: "{quoted_content[:200]}"] {clean_content}'
 
@@ -324,7 +317,7 @@ class ConversationCog(commands.Cog):
                 logger.error("[SEARCH] Error during web search: %s", error)
 
         # --- Generar respuesta ---
-        async with last_message.channel.typing():
+        async with message.channel.typing():
             if all_images:
                 response_text = await llm.generate_vision_response(
                     text=clean_content,
@@ -335,7 +328,7 @@ class ConversationCog(commands.Cog):
             else:
                 response_text = await llm.generate_response(formatted_messages, system_prompt)
 
-        await send_reply(last_message, response_text)
+        await send_reply(message, response_text)
 
         database.add_chat_message(
             channel_id,
@@ -348,12 +341,10 @@ class ConversationCog(commands.Cog):
         # --- Memorias de imágenes ---
         if all_images:
             await self._process_image_memories(
-                author, all_images, last_message, formatted_messages
+                author, all_images, message, formatted_messages
             )
-            all_images = []
 
         # --- Consolidación de memoria periódica ---
-        # Refrescar el perfil después de incrementar interacciones
         profile = database.get_user_profile(author.id, author.name)
         if profile["interaction_count"] > 0 and profile["interaction_count"] % 3 == 0:
             asyncio.create_task(

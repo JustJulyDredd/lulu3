@@ -44,6 +44,7 @@ Lulu incluye un repertorio de comandos interactivos y minijuegos:
 * `/status`: Consulta cuánto tiempo falta para poder volver a usar el comando de bump de Disboard.
 * `/ranking`: Muestra el ranking de miembros del servidor según su cantidad de bumps realizados.
 * `/humor` (¡Nuevo! 🎭): Pregúntale a Lulu cómo se siente en este momento basándose en la actividad reciente del servidor.
+* `/nivel` (¡Nuevo! ⭐): Consulta tu nivel de amistad y progreso de interacciones con Lulu.
 * `/olvidar` (¡Nuevo! ⚠️): Permite a un usuario purgar de forma permanente todos sus datos de la base de datos de Lulu (cumpleaños, perfil, memorias, stats de juego e historial de chat) por privacidad.
 
 ### 4. Recordatorio de Bumps (Disboard) ⏰
