@@ -1,0 +1,1502 @@
+[
+  {
+    "question": "¿En qué año comenzó la Revolución Francesa?",
+    "options": [
+      "1776",
+      "1789",
+      "1799",
+      "1804"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Quién fue el primer emperador de Roma?",
+    "options": [
+      "Julio César",
+      "Augusto",
+      "Tiberio",
+      "Calígula"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿En qué año cayó Constantinopla a manos de los otomanos?",
+    "options": [
+      "1204",
+      "1453",
+      "1492",
+      "1517"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Cómo se llama el sistema de escritura de los antiguos egipcios?",
+    "options": [
+      "Cuneiforme",
+      "Demótico",
+      "Jeroglíficos",
+      "Lineal B"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Qué evento detonó el inicio de la Primera Guerra Mundial?",
+    "options": [
+      "La invasión de Polonia",
+      "El hundimiento del Lusitania",
+      "El asesinato del archiduque Francisco Fernando",
+      "La batalla de Verdún"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿En qué año se firmó la Carta Magna en Inglaterra?",
+    "options": [
+      "1066",
+      "1215",
+      "1348",
+      "1415"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Quién fundó el Imperio mongol?",
+    "options": [
+      "Kublai Khan",
+      "Genghis Khan",
+      "Tamerlán",
+      "Batu Khan"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Qué civilización construyó la ciudad de Machu Picchu?",
+    "options": [
+      "Mayas",
+      "Aztecas",
+      "Incas",
+      "Olmecas"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿En qué año cayó el Muro de Berlín?",
+    "options": [
+      "1985",
+      "1987",
+      "1989",
+      "1991"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cuál era la capital del Imperio Azteca?",
+    "options": [
+      "Tikal",
+      "Tenochtitlán",
+      "Cuzco",
+      "Chichén Itzá"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Cuál es el océano más grande del mundo?",
+    "options": [
+      "Océano Atlántico",
+      "Océano Índico",
+      "Océano Pacífico",
+      "Océano Ártico"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cuál es la capital de Francia?",
+    "options": [
+      "Madrid",
+      "Berlín",
+      "Roma",
+      "París"
+    ],
+    "answer": 3
+  },
+  {
+    "question": "¿Cuál es el río más largo del mundo?",
+    "options": [
+      "Amazonas",
+      "Nilo",
+      "Yangtsé",
+      "Misisipi"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿En qué continente se encuentra el Monte Everest?",
+    "options": [
+      "América",
+      "África",
+      "Europa",
+      "Asia"
+    ],
+    "answer": 3
+  },
+  {
+    "question": "¿Cuál es el país más pequeño del mundo?",
+    "options": [
+      "Mónaco",
+      "San Marino",
+      "Ciudad del Vaticano",
+      "Liechtenstein"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cuál es la capital de Japón?",
+    "options": [
+      "Seúl",
+      "Pekín",
+      "Bangkok",
+      "Tokio"
+    ],
+    "answer": 3
+  },
+  {
+    "question": "¿Cuál es el desierto cálido más grande del mundo?",
+    "options": [
+      "Desierto de Gobi",
+      "Desierto del Sahara",
+      "Desierto de Kalahari",
+      "Desierto de Atacama"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿En qué continente se encuentra Egipto?",
+    "options": [
+      "Asia",
+      "Europa",
+      "África",
+      "Oceanía"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cuál es el lago más profundo del mundo?",
+    "options": [
+      "Lago Superior",
+      "Lago Victoria",
+      "Lago Baikal",
+      "Lago Titicaca"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cuál es la capital de Australia?",
+    "options": [
+      "Sídney",
+      "Melbourne",
+      "Perth",
+      "Canberra"
+    ],
+    "answer": 3
+  },
+  {
+    "question": "¿Cuál es la unidad básica estructural y funcional de todos los seres vivos?",
+    "options": [
+      "Átomo",
+      "Célula",
+      "Tejido",
+      "Órgano"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Qué orgánulo celular es conocido como la 'central energética' de la célula?",
+    "options": [
+      "Núcleo",
+      "Ribosoma",
+      "Mitocondria",
+      "Lisosoma"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cómo se llama el proceso mediante el cual las plantas convierten la luz solar en energía química?",
+    "options": [
+      "Respiración",
+      "Fermentación",
+      "Fotosíntesis",
+      "Quimiosíntesis"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cuál es la molécula que contiene la información genética de la mayoría de los seres vivos?",
+    "options": [
+      "ARN",
+      "ATP",
+      "Proteína",
+      "ADN"
+    ],
+    "answer": 3
+  },
+  {
+    "question": "¿Cuál es el órgano más grande del cuerpo humano?",
+    "options": [
+      "Hígado",
+      "Piel",
+      "Pulmones",
+      "Intestino delgado"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Qué gas eliminan los seres humanos principalmente durante la exhalación?",
+    "options": [
+      "Oxígeno",
+      "Nitrógeno",
+      "Dióxido de carbono",
+      "Argón"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cuál de los siguientes componentes de la sangre se encarga de combatir las infecciones?",
+    "options": [
+      "Glóbulos rojos",
+      "Plaquetas",
+      "Plasma",
+      "Glóbulos blancos"
+    ],
+    "answer": 3
+  },
+  {
+    "question": "¿Cuál es el hueso más pequeño del cuerpo humano?",
+    "options": [
+      "Fémur",
+      "Estribo",
+      "Rótula",
+      "Falange"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Quién propuso la teoría de la evolución por selección natural?",
+    "options": [
+      "Gregor Mendel",
+      "Louis Pasteur",
+      "Charles Darwin",
+      "Isaac Newton"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿En qué parte de la célula eucariota se encuentra la mayor parte del material genético?",
+    "options": [
+      "Citoplasma",
+      "Membrana",
+      "Aparato de Golgi",
+      "Núcleo"
+    ],
+    "answer": 3
+  },
+  {
+    "question": "¿Cuál es el símbolo químico del oro?",
+    "options": [
+      "Ag",
+      "Au",
+      "Fe",
+      "Pb"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Cuál es el elemento más abundante en el universo?",
+    "options": [
+      "Oxígeno",
+      "Helio",
+      "Hidrógeno",
+      "Nitrógeno"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cuál es el pH de una solución neutra a 25°C?",
+    "options": [
+      "0",
+      "14",
+      "1",
+      "7"
+    ],
+    "answer": 3
+  },
+  {
+    "question": "¿Cuál es el número atómico del carbono?",
+    "options": [
+      "6",
+      "12",
+      "1",
+      "8"
+    ],
+    "answer": 0
+  },
+  {
+    "question": "¿Qué gas es comúnmente utilizado para inflar globos debido a su baja densidad?",
+    "options": [
+      "Argón",
+      "Helio",
+      "Neón",
+      "Kriptón"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Cómo se llama comúnmente el compuesto NaCl?",
+    "options": [
+      "Bicarbonato de sodio",
+      "Cloruro de potasio",
+      "Cloruro de sodio",
+      "Sulfato de sodio"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿A qué elemento corresponde el símbolo químico Fe?",
+    "options": [
+      "Flúor",
+      "Fósforo",
+      "Hierro",
+      "Francio"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cuál es el componente principal del gas natural?",
+    "options": [
+      "Etano",
+      "Metano",
+      "Propano",
+      "Butano"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Cuál de las siguientes partículas subatómicas tiene carga negativa?",
+    "options": [
+      "Protón",
+      "Neutrón",
+      "Positrón",
+      "Electrón"
+    ],
+    "answer": 3
+  },
+  {
+    "question": "¿Cuál de estos elementos es un gas noble?",
+    "options": [
+      "Oxígeno",
+      "Nitrógeno",
+      "Argón",
+      "Cloro"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Qué significa la sigla CPU?",
+    "options": [
+      "Central Processing Unit",
+      "Computer Personal Unit",
+      "Control Process Unit",
+      "Core Processing Unit"
+    ],
+    "answer": 0
+  },
+  {
+    "question": "¿Cuál de estos es un lenguaje de programación orientado a objetos?",
+    "options": [
+      "HTML",
+      "CSS",
+      "Java",
+      "SQL"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Qué protocolo se utiliza para transferir páginas web de forma segura?",
+    "options": [
+      "HTTP",
+      "HTTPS",
+      "FTP",
+      "SMTP"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Qué tipo de memoria es la RAM?",
+    "options": [
+      "Permanente",
+      "Volátil",
+      "De solo lectura",
+      "Magnética"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Quién es considerado el padre de la informática moderna?",
+    "options": [
+      "Bill Gates",
+      "Steve Jobs",
+      "Alan Turing",
+      "Ada Lovelace"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cuál es la base del sistema binario?",
+    "options": [
+      "10",
+      "8",
+      "16",
+      "2"
+    ],
+    "answer": 3
+  },
+  {
+    "question": "¿Qué significa la sigla SQL?",
+    "options": [
+      "Structured Query Language",
+      "Simple Question Language",
+      "System Quick Logic",
+      "Standard Query List"
+    ],
+    "answer": 0
+  },
+  {
+    "question": "¿Cuál de los siguientes es un sistema operativo de código abierto?",
+    "options": [
+      "Windows",
+      "macOS",
+      "Linux",
+      "iOS"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Para qué sirve un firewall en una red?",
+    "options": [
+      "Aumentar la velocidad",
+      "Almacenar datos",
+      "Filtrar el tráfico de red",
+      "Enfriar el servidor"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Qué componente se encarga específicamente de procesar los gráficos en una computadora?",
+    "options": [
+      "CPU",
+      "GPU",
+      "RAM",
+      "SSD"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Quién creó el videojuego Pac-Man?",
+    "options": [
+      "Shigeru Miyamoto",
+      "Toru Iwatani",
+      "Gunpei Yokoi",
+      "Hideo Kojima"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿En qué consola se lanzó originalmente Super Mario Bros en 1985?",
+    "options": [
+      "Sega Master System",
+      "Atari 2600",
+      "Nintendo Entertainment System",
+      "Game Boy"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cuál era el nombre original de Mario en el juego Donkey Kong?",
+    "options": [
+      "Jumpman",
+      "Plumber Man",
+      "Luigi",
+      "Mario"
+    ],
+    "answer": 0
+  },
+  {
+    "question": "¿En qué país se originó el juego Tetris?",
+    "options": [
+      "Japón",
+      "Estados Unidos",
+      "Unión Soviética",
+      "Alemania"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cuál es el nombre del protagonista de la serie The Legend of Zelda?",
+    "options": [
+      "Zelda",
+      "Ganon",
+      "Link",
+      "Sheik"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Qué empresa desarrolló el icónico juego Space Invaders?",
+    "options": [
+      "Namco",
+      "Taito",
+      "Konami",
+      "Capcom"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Cuál fue la primera consola doméstica de Sega que compitió con la NES?",
+    "options": [
+      "Sega Saturn",
+      "Sega Dreamcast",
+      "Sega Master System",
+      "Sega Game Gear"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿En qué año se lanzó el primer juego de Pong por Atari?",
+    "options": [
+      "1970",
+      "1972",
+      "1975",
+      "1980"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Cuál es el nombre del erizo azul que se convirtió en la mascota de Sega?",
+    "options": [
+      "Tails",
+      "Knuckles",
+      "Sonic",
+      "Shadow"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Quién es la protagonista de la serie Metroid?",
+    "options": [
+      "Peach",
+      "Samus Aran",
+      "Lara Croft",
+      "Zelda"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Quién colaboró con Hidetaka Miyazaki en la creación del trasfondo y el mundo de Elden Ring?",
+    "options": [
+      "J.K. Rowling",
+      "George R.R. Martin",
+      "J.R.R. Tolkien",
+      "Andrzej Sapkowski"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Cómo se llama la ciudad donde transcurre la historia de Cyberpunk 2077?",
+    "options": [
+      "Neo Tokyo",
+      "Night City",
+      "Los Santos",
+      "Rapture"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "En la saga moderna de God of War, ¿cuál es el nombre del hijo de Kratos?",
+    "options": [
+      "Atreus",
+      "Baldur",
+      "Tyr",
+      "Loki"
+    ],
+    "answer": 0
+  },
+  {
+    "question": "¿Cuál es el nombre de la protagonista de la saga Horizon?",
+    "options": [
+      "Ellie",
+      "Aloy",
+      "Kassandra",
+      "Lara Croft"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿En qué sistema de juego de rol de mesa se basa Baldur's Gate 3?",
+    "options": [
+      "Pathfinder",
+      "Call of Cthulhu",
+      "Dungeons & Dragons",
+      "Cyberpunk RED"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Quién es el protagonista de Hades que intenta escapar del inframundo?",
+    "options": [
+      "Orfeo",
+      "Zagreus",
+      "Tánatos",
+      "Dionisio"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Cuál es el nombre del samurái protagonista en Ghost of Tsushima?",
+    "options": [
+      "Jin Sakai",
+      "Sekiro",
+      "Hanzo",
+      "Genji"
+    ],
+    "answer": 0
+  },
+  {
+    "question": "¿En qué plataforma fue lanzado exclusivamente Animal Crossing: New Horizons?",
+    "options": [
+      "PlayStation 4",
+      "Xbox One",
+      "Nintendo Switch",
+      "PC"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cuál es el nombre del protagonista jugable en The Legend of Zelda: Breath of the Wild?",
+    "options": [
+      "Zelda",
+      "Ganondorf",
+      "Link",
+      "Sidon"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Quién es la protagonista principal que busca venganza en The Last of Us Part II?",
+    "options": [
+      "Abby",
+      "Ellie",
+      "Tess",
+      "Maria"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Quién dirigió la película 'Pulp Fiction'?",
+    "options": [
+      "Steven Spielberg",
+      "Quentin Tarantino",
+      "Martin Scorsese",
+      "Christopher Nolan"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Cuál fue la primera película en ganar el Oscar a la Mejor Película?",
+    "options": [
+      "Wings",
+      "Sunrise",
+      "The Jazz Singer",
+      "Metropolis"
+    ],
+    "answer": 0
+  },
+  {
+    "question": "¿Qué actor interpretó a Jack Dawson en 'Titanic'?",
+    "options": [
+      "Brad Pitt",
+      "Tom Cruise",
+      "Leonardo DiCaprio",
+      "Johnny Depp"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cuál es la película más taquillera de la historia (sin ajustar por inflación)?",
+    "options": [
+      "Avengers: Endgame",
+      "Avatar",
+      "Titanic",
+      "Star Wars: The Force Awakens"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Qué actor ganó un Oscar póstumo por su papel como el Joker en 'The Dark Knight'?",
+    "options": [
+      "Joaquin Phoenix",
+      "Heath Ledger",
+      "Jack Nicholson",
+      "Jared Leto"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿En qué película aparece la famosa frase 'Le haré una oferta que no podrá rechazar'?",
+    "options": [
+      "Scarface",
+      "Goodfellas",
+      "El Padrino",
+      "Casino"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cómo se llama el reino ficticio donde se desarrolla 'Black Panther'?",
+    "options": [
+      "Zamunda",
+      "Genosha",
+      "Wakanda",
+      "Themyscira"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Quién es conocido como el 'Maestro del Suspenso' y dirigió 'Psicosis'?",
+    "options": [
+      "Alfred Hitchcock",
+      "Orson Welles",
+      "Billy Wilder",
+      "Francis Ford Coppola"
+    ],
+    "answer": 0
+  },
+  {
+    "question": "¿Cuál de estas películas NO forma parte de la trilogía original de 'Star Wars'?",
+    "options": [
+      "Una nueva esperanza",
+      "El Imperio contraataca",
+      "El retorno del Jedi",
+      "El despertar de la Fuerza"
+    ],
+    "answer": 3
+  },
+  {
+    "question": "¿Qué película ostenta el récord de haber ganado 11 premios Oscar, empatando con 'Ben-Hur' y 'Titanic'?",
+    "options": [
+      "El Señor de los Anillos: El retorno del Rey",
+      "Forrest Gump",
+      "La lista de Schindler",
+      "Avatar"
+    ],
+    "answer": 0
+  },
+  {
+    "question": "¿Cómo se llama el protagonista de 'Breaking Bad' que es profesor de química?",
+    "options": [
+      "Jesse Pinkman",
+      "Walter White",
+      "Saul Goodman",
+      "Gustavo Fring"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿En qué continente se desarrolla la mayor parte de la acción de 'Game of Thrones'?",
+    "options": [
+      "Essos",
+      "Sothoryos",
+      "Westeros",
+      "Ulthos"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿En qué ciudad se desarrolla la serie 'Friends'?",
+    "options": [
+      "Los Ángeles",
+      "Chicago",
+      "Nueva York",
+      "Miami"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "En 'Stranger Things', ¿cómo se llama la dimensión paralela?",
+    "options": [
+      "El Vacío",
+      "El Mundo del Revés",
+      "La Zona Oscura",
+      "El Inframundo"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Cuál es el nombre de la ciudad donde se encuentra la oficina de Dunder Mifflin en 'The Office (US)'?",
+    "options": [
+      "Buffalo",
+      "Scranton",
+      "Albany",
+      "Philadelphia"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿En qué país se desarrolla la trama de la serie 'Dark'?",
+    "options": [
+      "Austria",
+      "Suiza",
+      "Dinamarca",
+      "Alemania"
+    ],
+    "answer": 3
+  },
+  {
+    "question": "En 'La Casa de Papel', ¿cuál es el alias del cerebro detrás de los robos?",
+    "options": [
+      "Berlín",
+      "Denver",
+      "El Profesor",
+      "Nairobi"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cuál es el premio económico total en 'El Juego del Calamar'?",
+    "options": [
+      "10 mil millones de wones",
+      "45.6 mil millones de wones",
+      "100 mil millones de wones",
+      "1 mil millones de wones"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Quién es la protagonista de 'The Crown' en sus primeras temporadas?",
+    "options": [
+      "Princesa Diana",
+      "Reina Isabel II",
+      "Reina Victoria",
+      "Princesa Margarita"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Cuál es la temática principal de la serie 'Black Mirror'?",
+    "options": [
+      "Viajes en el tiempo",
+      "Crímenes reales",
+      "Impacto de la tecnología",
+      "Comedia romántica"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Quién es el protagonista de 'Death Note'?",
+    "options": [
+      "L",
+      "Light Yagami",
+      "Ryuk",
+      "Near"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Cuál es el objetivo principal de Monkey D. Luffy en 'One Piece'?",
+    "options": [
+      "Encontrar el All Blue",
+      "Ser el marine más fuerte",
+      "Convertirse en el Rey de los Piratas",
+      "Descubrir el Siglo Vacío"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "En 'Naruto', ¿quién es el Séptimo Hokage de la Aldea de la Hoja?",
+    "options": [
+      "Kakashi Hatake",
+      "Tsunade",
+      "Minato Namikaze",
+      "Naruto Uzumaki"
+    ],
+    "answer": 3
+  },
+  {
+    "question": "¿Cómo se llaman los tres muros que protegen a la humanidad en 'Attack on Titan'?",
+    "options": [
+      "Maria, Rose y Sina",
+      "Alpha, Beta y Gamma",
+      "Norte, Sur y Este",
+      "Sina, Rose y Titan"
+    ],
+    "answer": 0
+  },
+  {
+    "question": "¿Cuál es el nombre de nacimiento de Goku en 'Dragon Ball'?",
+    "options": [
+      "Bardock",
+      "Raditz",
+      "Kakarotto",
+      "Vegeta"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "En 'Fullmetal Alchemist', ¿cuál es la ley fundamental de la alquimia?",
+    "options": [
+      "La ley del más fuerte",
+      "El intercambio equivalente",
+      "La ley de la transmutación",
+      "El ciclo de la vida"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Cómo se llama el quirk (don) que hereda Izuku Midoriya en 'My Hero Academia'?",
+    "options": [
+      "All For One",
+      "Explosión",
+      "Half-Cold Half-Hot",
+      "One For All"
+    ],
+    "answer": 3
+  },
+  {
+    "question": "En 'Demon Slayer' (Kimetsu no Yaiba), ¿cómo se llama la hermana de Tanjiro?",
+    "options": [
+      "Kanao",
+      "Shinobu",
+      "Nezuko",
+      "Mitsuri"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Quién es la protagonista de 'Sailor Moon'?",
+    "options": [
+      "Rei Hino",
+      "Usagi Tsukino",
+      "Ami Mizuno",
+      "Makoto Kino"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "En 'Bleach', ¿cuál es el cargo de Ichigo Kurosaki?",
+    "options": [
+      "Capitán del Gotei 13",
+      "Quincy",
+      "Shinigami sustituto",
+      "Arrancar"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cuál de estos álbumes de Taylor Swift marcó su transición hacia el indie folk y el alternative?",
+    "options": [
+      "1989",
+      "Reputation",
+      "folklore",
+      "Lover"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Qué canción de Billie Eilish fue compuesta para la película de James Bond 'No Time to Die'?",
+    "options": [
+      "bad guy",
+      "No Time to Die",
+      "Happier Than Ever",
+      "Ocean Eyes"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿En qué álbum de Dua Lipa se encuentra el éxito 'Levitating'?",
+    "options": [
+      "Dua Lipa",
+      "Future Nostalgia",
+      "Club Future Nostalgia",
+      "Radical Optimism"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Cuál de estas canciones de Harry Styles alcanzó el número 1 en el Billboard Hot 100 en 2022?",
+    "options": [
+      "Watermelon Sugar",
+      "Adore You",
+      "As It Was",
+      "Sign of the Times"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cuál es el título de la canción de The Weeknd que es una de las más escuchadas en la historia de Spotify?",
+    "options": [
+      "Starboy",
+      "The Hills",
+      "Can't Feel My Face",
+      "Blinding Lights"
+    ],
+    "answer": 3
+  },
+  {
+    "question": "¿En qué álbum de Ariana Grande se incluye la canción '7 rings'?",
+    "options": [
+      "Dangerous Woman",
+      "Sweetener",
+      "thank u, next",
+      "Positions"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Qué álbum de Bad Bunny fue el primero en español en ser nominado a 'Álbum del Año' en los Grammys?",
+    "options": [
+      "YHLQMDLG",
+      "El Último Tour del Mundo",
+      "Un Verano Sin Ti",
+      "X 100pre"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cuál fue el sencillo debut de Olivia Rodrigo que se volvió viral en 2021?",
+    "options": [
+      "good 4 u",
+      "drivers license",
+      "deja vu",
+      "vampire"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Cuál de estas canciones es una colaboración entre Justin Bieber y The Kid LAROI?",
+    "options": [
+      "Peaches",
+      "Ghost",
+      "Stay",
+      "Holy"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Qué canción de Miley Cyrus ganó el premio a 'Grabación del Año' en los Grammys 2024?",
+    "options": [
+      "Wrecking Ball",
+      "Flowers",
+      "The Climb",
+      "Midnight Sky"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Quién es el atleta con más medallas de oro olímpicas de todos los tiempos?",
+    "options": [
+      "Usain Bolt",
+      "Michael Phelps",
+      "Larisa Latynina",
+      "Carl Lewis"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿En qué ciudad se celebraron los primeros Juegos Olímpicos de la era moderna en 1896?",
+    "options": [
+      "París",
+      "Londres",
+      "Atenas",
+      "Roma"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cuál es la distancia exacta de una maratón?",
+    "options": [
+      "42.195 km",
+      "40 km",
+      "45.5 km",
+      "38.2 km"
+    ],
+    "answer": 0
+  },
+  {
+    "question": "¿Qué país ha ganado más Copas del Mundo de la FIFA?",
+    "options": [
+      "Alemania",
+      "Italia",
+      "Argentina",
+      "Brasil"
+    ],
+    "answer": 3
+  },
+  {
+    "question": "¿En qué deporte se utiliza el término 'home run'?",
+    "options": [
+      "Cricket",
+      "Béisbol",
+      "Golf",
+      "Tenis"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Cuántos jugadores componen un equipo de baloncesto en cancha durante un partido?",
+    "options": [
+      "4",
+      "5",
+      "6",
+      "7"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Quién es conocido como el 'Rey de la Arcilla' en el tenis?",
+    "options": [
+      "Roger Federer",
+      "Novak Djokovic",
+      "Rafael Nadal",
+      "Andy Murray"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cada cuántos años se celebran los Juegos Olímpicos?",
+    "options": [
+      "2",
+      "3",
+      "4",
+      "5"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿En qué deporte se compite por el trofeo 'Stanley Cup'?",
+    "options": [
+      "Béisbol",
+      "Baloncesto",
+      "Fútbol Americano",
+      "Hockey sobre hielo"
+    ],
+    "answer": 3
+  },
+  {
+    "question": "¿Cuál de estos colores NO forma parte de los anillos olímpicos?",
+    "options": [
+      "Azul",
+      "Verde",
+      "Marrón",
+      "Amarillo"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Quién pintó la Mona Lisa?",
+    "options": [
+      "Michelangelo",
+      "Leonardo da Vinci",
+      "Rafael",
+      "Donatello"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿A qué movimiento artístico perteneció Salvador Dalí?",
+    "options": [
+      "Impresionismo",
+      "Cubismo",
+      "Surrealismo",
+      "Expresionismo"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Quién es el autor de la obra 'La Noche Estrellada'?",
+    "options": [
+      "Claude Monet",
+      "Vincent van Gogh",
+      "Paul Gauguin",
+      "Edvard Munch"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿En qué ciudad se encuentra el museo del Louvre?",
+    "options": [
+      "Londres",
+      "Madrid",
+      "Nueva York",
+      "París"
+    ],
+    "answer": 3
+  },
+  {
+    "question": "¿Quién pintó el mural 'Guernica'?",
+    "options": [
+      "Joan Miró",
+      "Pablo Picasso",
+      "Salvador Dalí",
+      "Frida Kahlo"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Cuál de estos artistas es considerado el padre del Impresionismo?",
+    "options": [
+      "Claude Monet",
+      "Pablo Picasso",
+      "Vincent van Gogh",
+      "Andy Warhol"
+    ],
+    "answer": 0
+  },
+  {
+    "question": "¿Quién pintó 'Las Meninas'?",
+    "options": [
+      "Francisco de Goya",
+      "El Greco",
+      "Diego Velázquez",
+      "Bartolomé Esteban Murillo"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cuál es el aglutinante principal en la pintura al óleo?",
+    "options": [
+      "Agua",
+      "Yema de huevo",
+      "Aceite",
+      "Cera de abeja"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Quién es el autor de la famosa obra 'El Grito'?",
+    "options": [
+      "Edvard Munch",
+      "Caspar David Friedrich",
+      "August Macke",
+      "Wassily Kandinsky"
+    ],
+    "answer": 0
+  },
+  {
+    "question": "¿A qué periodo pertenece el arte de Miguel Ángel y Leonardo da Vinci?",
+    "options": [
+      "Barroco",
+      "Renacimiento",
+      "Rococó",
+      "Neoclasicismo"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Quién es el autor atribuido de la 'Ilíada' y la 'Odisea'?",
+    "options": [
+      "Virgilio",
+      "Homero",
+      "Hesíodo",
+      "Eurípides"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿En qué ciudad se desarrollaron la mayoría de las tragedias griegas clásicas?",
+    "options": [
+      "Esparta",
+      "Tebas",
+      "Atenas",
+      "Corinto"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cuál de estas obras fue escrita por Sófocles?",
+    "options": [
+      "Edipo Rey",
+      "Medea",
+      "Lisístrata",
+      "La Eneida"
+    ],
+    "answer": 0
+  },
+  {
+    "question": "¿Quién es el autor de la 'Eneida', poema épico sobre la fundación de Roma?",
+    "options": [
+      "Horacio",
+      "Ovidio",
+      "Juvenal",
+      "Virgilio"
+    ],
+    "answer": 3
+  },
+  {
+    "question": "¿Qué obra de Ovidio narra una serie de transformaciones mitológicas?",
+    "options": [
+      "Ars Amatoria",
+      "Las Metamorfosis",
+      "Tristes",
+      "Heroides"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Cuál es el nombre del protagonista de la 'Odisea' que intenta regresar a Ítaca?",
+    "options": [
+      "Aquiles",
+      "Agamenón",
+      "Odiseo",
+      "Héctor"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cuál de estos autores es conocido como el padre de la comedia antigua griega?",
+    "options": [
+      "Esquilo",
+      "Aristófanes",
+      "Eurípides",
+      "Sófocles"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Qué tragedia de Eurípides trata sobre una mujer que busca venganza contra su esposo Jasón?",
+    "options": [
+      "Electra",
+      "Alcestis",
+      "Hécuba",
+      "Medea"
+    ],
+    "answer": 3
+  },
+  {
+    "question": "¿Cómo se llama el poema de Hesíodo que describe el origen del universo y los dioses?",
+    "options": [
+      "Teogonía",
+      "Trabajos y Días",
+      "Ilíada",
+      "Odisea"
+    ],
+    "answer": 0
+  },
+  {
+    "question": "¿Quién fue el maestro de la oratoria romana, famoso por sus discursos y tratados políticos?",
+    "options": [
+      "Séneca",
+      "Cicerón",
+      "Plinio el Viejo",
+      "Tácito"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Quién es el rey de los dioses en la mitología griega?",
+    "options": [
+      "Poseidón",
+      "Zeus",
+      "Hades",
+      "Apolo"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Cuál es el martillo del dios Thor en la mitología nórdica?",
+    "options": [
+      "Gungnir",
+      "Mjolnir",
+      "Gram",
+      "Draupnir"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "¿Quién es la diosa griega de la sabiduría y la estrategia militar?",
+    "options": [
+      "Hera",
+      "Artemisa",
+      "Atenea",
+      "Afrodita"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Cómo se llama el caballo de ocho patas de Odín?",
+    "options": [
+      "Sleipnir",
+      "Skinfaxi",
+      "Hrimfaxi",
+      "Gullfaxi"
+    ],
+    "answer": 0
+  },
+  {
+    "question": "¿Cuál de estos personajes griegos utilizó alas de cera para volar?",
+    "options": [
+      "Perseo",
+      "Teseo",
+      "Ícaro",
+      "Belerofonte"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Dónde son llevados los guerreros caídos en combate según la mitología nórdica?",
+    "options": [
+      "Helheim",
+      "Midgard",
+      "Asgard",
+      "Valhalla"
+    ],
+    "answer": 3
+  },
+  {
+    "question": "¿Quién es el dios griego del inframundo?",
+    "options": [
+      "Hades",
+      "Hermes",
+      "Hephaestus",
+      "Dionisio"
+    ],
+    "answer": 0
+  },
+  {
+    "question": "¿Cuál es el nombre del árbol sagrado que conecta los nueve mundos nórdicos?",
+    "options": [
+      "Yggdrasil",
+      "Asvatthr",
+      "Læradr",
+      "Mimir"
+    ],
+    "answer": 0
+  },
+  {
+    "question": "¿Quién es la diosa griega del amor y la belleza?",
+    "options": [
+      "Hestia",
+      "Deméter",
+      "Afrodita",
+      "Perséfone"
+    ],
+    "answer": 2
+  },
+  {
+    "question": "¿Quién es el dios nórdico conocido como el dios del engaño?",
+    "options": [
+      "Baldur",
+      "Heimdall",
+      "Tyr",
+      "Loki"
+    ],
+    "answer": 3
+  }
+]

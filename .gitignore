@@ -1,0 +1,15 @@
+__pycache__/
+.env
+variables.env
+venv/
+*.pyc
+
+# SQLite DBs and log files
+lulu_bot.db
+lulu_bot.db-shm
+lulu_bot.db-wal
+lulu_logs.txt
+lulu_logs.txt.*
+
+# Local tools
+.bin/
