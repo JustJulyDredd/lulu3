@@ -5,14 +5,14 @@ logger = logging.getLogger("lulu.search")
 
 
 async def search_web(query: str, max_results: int = 5) -> str:
-    """Searches DuckDuckGo and returns a formatted summary of results.
+    """Busca en DuckDuckGo y devuelve un resumen formateado de los resultados.
 
     Args:
-        query: The search query string.
-        max_results: Maximum number of results to return.
+        query: La cadena de búsqueda.
+        max_results: Número máximo de resultados a devolver.
 
     Returns:
-        A formatted string with search results ready to inject as LLM context.
+        Una cadena formateada con los resultados lista para usar como contexto en el LLM.
     """
     try:
         with DDGS() as ddgs:
@@ -31,5 +31,5 @@ async def search_web(query: str, max_results: int = 5) -> str:
         return "\n\n".join(formatted)
 
     except Exception as e:
-        logger.error(f"Web search error: {e}")
+        logger.error(f"Error de búsqueda web: {e}")
         return f"Error al buscar: {e}"

@@ -47,14 +47,14 @@ def is_disboard_bump_message(message: discord.Message) -> bool:
         meta_name = getattr(interaction_meta, "name", "")
         if meta_name == "bump":
             is_bump_interaction = True
-            logger.info("Bump detected via interaction_metadata.name == 'bump'")
+            logger.info("Bump detectado vía interaction_metadata.name == 'bump'")
 
     if is_from_disboard and is_bump_interaction:
         return True
 
     if is_from_disboard:
         logger.info(
-            "[DISBOARD MSG] content='%s' | embeds=%s | interaction=%s | type=%s",
+            "[DISBOARD MSG] contenido='%s' | embeds=%s | interacción=%s | tipo=%s",
             message.content[:100],
             len(message.embeds),
             interaction_meta,
@@ -73,7 +73,7 @@ def is_disboard_bump_message(message: discord.Message) -> bool:
             )
 
         if _message_contains_bump_pattern(message.content):
-            logger.info("Bump detected via content match")
+            logger.info("Bump detectado por coincidencia en el contenido")
             return True
 
         for embed in message.embeds:
@@ -94,69 +94,56 @@ def is_disboard_bump_message(message: discord.Message) -> bool:
 
             combined_text = " ".join(searchable_parts).lower()
             if _message_contains_bump_pattern(combined_text):
-                logger.info("Bump detected via embed text match")
+                logger.info("Bump detectado por coincidencia en el texto del embed")
                 return True
 
         if any(embed.image and embed.image.url for embed in message.embeds):
-            logger.info("Bump detected via Disboard embed with image")
+            logger.info("Bump detectado por embed de Disboard con imagen")
             return True
 
         if any(embed.color and embed.color.value in (2405303, 2406327, 0x24b7b7) for embed in message.embeds):
-            logger.info("Bump detected via Disboard embed color")
+            logger.info("Bump detectado por color de embed de Disboard")
             return True
 
         if message.embeds:
-            logger.info("Bump detected: Disboard message with embed (fallback)")
+            logger.info("Bump detectado: mensaje de Disboard con embed (fallback)")
             return True
 
     if is_bump_interaction:
-        logger.info("Bump detected via interaction only (author ID may have changed)")
+        logger.info("Bump detectado solo por interacción (el ID del autor pudo haber cambiado)")
         return True
 
     return False
 
 
-async def get_bump_reminder_text() -> str:
-    """Genera un recordatorio de bump en el estilo de Lulu."""
-    prompt = (
-        "Genera un mensaje muy corto e informal (máximo 2 líneas) avisando a todos "
-        "de que ya pasaron las 2 horas y es hora de hacer bump (comando /bump) en el servidor. "
-        "Recuerda que eres Lulu, una adolescente graciosa y amigable. Usa algún emoji (ej. 🛸, 👾). "
-        "No los llames 'humanos', son tus amigos."
-    )
-    try:
-        reminder = await llm.generate_response(
-            messages=[{"role": "user", "content": prompt}],
-            system_prompt=personality.LULU_LORE,
-            temperature=0.9,
-        )
-        if reminder and not reminder.startswith("*("):
-            return reminder
-    except Exception as error:
-        logger.error("Failed to generate LLM bump reminder: %s", error)
+BUMP_REMINDER_TEMPLATES = [
+    "¡oigan! ya pasaron las 2 horas, alguien haga /bump por fa 🛸",
+    "holaaa, toca hacer /bump al server, no se les olvide 👾",
+    "¡hora del bump! 🚀 pongan /bump para subir el server por fis",
+    "oigan, ya se puede hacer /bump otra vez, pónganlo please ✨",
+    "alguien haga el /bump antes de que me quede dormida y ya no les avise jaja 😴",
+    "bump timeee 🍕 pongan /bump para que venga más gente",
+]
 
-    return "🛸 ¡Hey! Ya pasaron 2 horas. ¡Es hora del bump! Usen `/bump` por fis. 👾"
+BUMP_ACK_TEMPLATES = [
+    "¡súper! gracias por el bump, ya puse la alarma para dentro de 2 horas ⏰🛸",
+    "gracias por el bump, ¡eres lo máximo! pongo el temporizador ✨",
+    "¡buenaaa! ya quedó el bump. nos vemos en 2 horas para el siguiente 👾",
+    "¡gracias! server bump-eado con éxito. alarma de 2 horas activada 🍕",
+    "¡eso! bump realizado. ya guardé el tiempo para avisarles al rato 🚀",
+]
+
+
+async def get_bump_reminder_text() -> str:
+    """Genera un recordatorio de bump prerenderizado en el estilo de Lulu."""
+    import random
+    return random.choice(BUMP_REMINDER_TEMPLATES)
 
 
 async def get_bump_ack_text() -> str:
-    """Genera un mensaje de agradecimiento cuando el bump fue exitoso."""
-    prompt = (
-        "El servidor acaba de ser bump-eado exitosamente. Genera una respuesta corta "
-        "(máximo 2 líneas) agradeciendo a la persona y diciendo que vas a poner un temporizador "
-        "de 2 horas para recordarles. Usa tu estilo adolescente de Lulu. No los llames 'humanos'."
-    )
-    try:
-        ack = await llm.generate_response(
-            messages=[{"role": "user", "content": prompt}],
-            system_prompt=personality.LULU_LORE,
-            temperature=0.9,
-        )
-        if ack and not ack.startswith("*("):
-            return ack
-    except Exception as error:
-        logger.error("Failed to generate LLM bump ack: %s", error)
-
-    return "👾 ¡Súper! Server bump-eado. ¡Pongo mi alarma para dentro de 2 horas! 🛸"
+    """Genera un mensaje de agradecimiento prerenderizado cuando el bump fue exitoso."""
+    import random
+    return random.choice(BUMP_ACK_TEMPLATES)
 
 
 class BumpCog(commands.Cog):
@@ -179,7 +166,7 @@ class BumpCog(commands.Cog):
         now = time.time()
         pending = database.get_pending_reminders(now)
         if pending:
-            logger.info("Found %s pending bump reminder(s) from while offline.", len(pending))
+            logger.info("Se encontraron %s recordatorio(s) de bump pendientes mientras estuve offline.", len(pending))
             for record in pending:
                 channel_id = record["channel_id"]
                 try:
@@ -188,14 +175,14 @@ class BumpCog(commands.Cog):
                         reminder_msg = await get_bump_reminder_text()
                         await channel.send(f"@here {reminder_msg}")
                     database.mark_reminder_sent(channel_id)
-                    logger.info("Sent missed bump reminder to channel %s", channel_id)
+                    logger.info("Recordatorio de bump perdido enviado al canal %s", channel_id)
                 except Exception as error:
-                    logger.error("Failed to send missed bump reminder to %s: %s", channel_id, error)
+                    logger.error("Error al enviar el recordatorio de bump perdido a %s: %s", channel_id, error)
                     database.mark_reminder_sent(channel_id)
 
     async def _scan_bump_channel_history(self) -> None:
         """Busca en el historial reciente del canal de bump el último bump válido."""
-        logger.info("Scanning bump channel %s for recent bumps...", config.BUMP_CHANNEL_ID)
+        logger.info("Escaneando el canal de bump %s en busca de bumps recientes...", config.BUMP_CHANNEL_ID)
 
         try:
             channel = self.bot.get_channel(config.BUMP_CHANNEL_ID)
@@ -203,7 +190,7 @@ class BumpCog(commands.Cog):
                 channel = await self.bot.fetch_channel(config.BUMP_CHANNEL_ID)
 
             if not channel:
-                logger.error("Could not find bump channel %s", config.BUMP_CHANNEL_ID)
+                logger.error("No se encontró el canal de bump %s", config.BUMP_CHANNEL_ID)
                 return
 
             last_bump_time: Optional[float] = None
@@ -211,7 +198,7 @@ class BumpCog(commands.Cog):
                 if is_disboard_bump_message(msg):
                     last_bump_time = msg.created_at.timestamp()
                     logger.info(
-                        "Found bump in history from %s by interaction/Disboard",
+                        "Encontrado bump en el historial de %s por interacción/Disboard",
                         msg.created_at.strftime("%Y-%m-%d %H:%M:%S"),
                     )
                     break
@@ -227,20 +214,20 @@ class BumpCog(commands.Cog):
                     minutes, seconds = divmod(remaining, 60)
                     hours, minutes = divmod(minutes, 60)
                     logger.info(
-                        "⏰ Bump timer recovered! Last bump was %ss ago. Next reminder in %sh %sm %ss",
+                        "⏰ Temporizador de bump recuperado! El último bump fue hace %ss. Próximo recordatorio en %sh %sm %ss",
                         int(time_since_bump), hours, minutes, seconds,
                     )
                     database.set_bump_time(config.BUMP_CHANNEL_ID, next_bump)
                 else:
                     logger.info(
-                        "⏰ Last bump was %ss ago — timer already expired! Sending reminder now.",
+                        "⏰ El último bump fue hace %ss — el temporizador ya expiró. Enviando recordatorio ahora.",
                         int(time_since_bump),
                     )
                     database.set_bump_time(config.BUMP_CHANNEL_ID, now - 1)
             else:
-                logger.info("No recent bumps found in channel history.")
+                logger.info("No se encontraron bumps recientes en el historial del canal.")
         except Exception as error:
-            logger.error("Error scanning bump channel history: %s", error)
+            logger.error("Error al escanear el historial del canal de bump: %s", error)
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
@@ -265,7 +252,7 @@ class BumpCog(commands.Cog):
         next_bump = time.time() + (config.BUMP_INTERVAL_MINUTES * 60)
         database.set_bump_time(bump_channel_id, next_bump)
         logger.info(
-            "✅ BUMP REGISTERED! Channel %s -> Reminder in channel %s. Next bump at %s",
+            "✅ BUMP REGISTRADO: canal %s -> recordatorio en canal %s. Próximo bump a las %s",
             message.channel.id, bump_channel_id,
             datetime.fromtimestamp(next_bump).strftime("%H:%M:%S"),
         )
@@ -275,7 +262,7 @@ class BumpCog(commands.Cog):
             bumper = getattr(interaction_meta, "user", None)
             if bumper:
                 database.record_bump(bumper.id, bumper.name)
-                logger.info("Bump recorded for @%s", bumper.name)
+                logger.info("Bump registrado para @%s", bumper.name)
 
         ack_msg = await get_bump_ack_text()
         await message.channel.send(ack_msg)
@@ -294,7 +281,7 @@ class BumpCog(commands.Cog):
                 try:
                     channel = await self.bot.fetch_channel(channel_id)
                 except Exception as error:
-                    logger.error("Could not fetch channel %s: %s", channel_id, error)
+                    logger.error("No se pudo obtener el canal %s: %s", channel_id, error)
                     database.mark_reminder_sent(channel_id)
                     continue
 
@@ -302,10 +289,9 @@ class BumpCog(commands.Cog):
                 reminder_msg = await get_bump_reminder_text()
                 await channel.send(f"@here {reminder_msg}")
                 database.mark_reminder_sent(channel_id)
-                logger.info("Sent bump reminder to channel %s", channel_id)
+                logger.info("Recordatorio de bump enviado al canal %s", channel_id)
             except Exception as error:
-                logger.error("Error sending bump reminder to %s: %s", channel_id, error)
-
+                logger.error("Error al enviar el recordatorio de bump a %s: %s", channel_id, error)
     @check_bump_reminders.before_loop
     async def before_check_bump_reminders(self):
         await self.bot.wait_until_ready()
@@ -362,7 +348,7 @@ class BumpCog(commands.Cog):
 
         bump_channel_id = config.BUMP_CHANNEL_ID or ctx.channel.id
         database.set_bump_time(bump_channel_id, next_bump)
-        logger.info("Mock bump scheduled for %s", time_msg)
+        logger.info("Bump simulado programado para %s", time_msg)
 
         ack_msg = await get_bump_ack_text()
         if seconds is not None:

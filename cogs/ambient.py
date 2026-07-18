@@ -104,7 +104,7 @@ class AmbientCog(commands.Cog):
         status = random.choice(statuses)
         await self.bot.change_presence(activity=status)
         self._last_status_change = time.time()
-        logger.info(f"[PRESENCE] Status changed to context '{self._current_context}': {status.name}")
+        logger.info(f"[PRESENCE] El estado cambió al contexto '{self._current_context}': {status.name}")
 
     # --- Detección de presencia de otros usuarios ---
 
@@ -156,11 +156,11 @@ class AmbientCog(commands.Cog):
                     temperature=0.85,
                 )
                 
-                if response and not response.startswith("*("):
+                if response and not response.startswith("*(") and response not in llm.TIRED_RESPONSES:
                     await channel.send(response)
-                    logger.info(f"[PRESENCE] Reacted to {after.name}'s activity: {activity_name}")
+                    logger.info(f"[PRESENCE] Reaccionó a la actividad de {after.name}: {activity_name}")
             except Exception as e:
-                logger.error(f"[PRESENCE] Error reacting to activity: {e}")
+                logger.error(f"[PRESENCE] Error al reaccionar a la actividad: {e}")
 
     def _get_presence_reaction_prompt(self, username: str, activity_type, activity_name: str) -> str:
         """Genera un prompt para reaccionar a la actividad de alguien."""
@@ -206,7 +206,7 @@ class AmbientCog(commands.Cog):
                 await self.set_contextual_status("chill")
                 
         except Exception as e:
-            logger.error(f"[PRESENCE] Error updating context: {e}")
+            logger.error(f"[PRESENCE] Error al actualizar el contexto: {e}")
 
     async def _detect_channel_topic(self) -> str:
         """Detecta de qué hablan en los canales para cambiar el contexto."""
@@ -255,18 +255,16 @@ class AmbientCog(commands.Cog):
         if len(content) < 5 and not has_attachments and not has_link:
             return
 
-        # Reacciones aleatorias con mayor probabilidad si hay algo interesante
-        now = time.time()
-        react_probability = REACT_CHANCE
-        if has_attachments or has_link:
-            react_probability = REACT_CHANCE * 2  # Mayor probabilidad si hay imágenes/links
-        
-        if random.random() < react_probability:
+        # Reacciones genuinas usando la IA para cada mensaje
+        content_for_emoji = content or ("(imagen/archivo)" if has_attachments else "")
+        if content_for_emoji:
             try:
-                emoji = random.choice(LULU_REACTIONS)
-                await message.add_reaction(emoji)
-            except Exception:
-                pass
+                emoji = await llm.generate_emoji_reaction(content_for_emoji)
+                if emoji:
+                    await message.add_reaction(emoji)
+                    logger.info(f"[LURK] Reaccionó genuinamente a '{content_for_emoji[:20]}' con {emoji}")
+            except Exception as e:
+                logger.error(f"[LURK] Error al agregar la reacción genuina: {e}")
 
         # Comentario espontáneo (lurk)
         # Mayor probabilidad si hay algo interesante (imágenes, links, etc)
@@ -283,7 +281,7 @@ class AmbientCog(commands.Cog):
         if now - last_channel_lurk < LURK_CHANNEL_COOLDOWN:
             return
 
-        logger.info("[LURK] Jumping into conversation in channel %s", message.channel.id)
+        logger.info("[LURK] Interviniendo en la conversación en el canal %s", message.channel.id)
 
         history = database.get_chat_history(message.channel.id, limit=10)
         formatted = personality.format_history_for_llm(history)
@@ -313,7 +311,7 @@ class AmbientCog(commands.Cog):
                 system_prompt=lurk_prompt,
                 temperature=0.9,
             )
-            if response and not response.startswith("*(") and "SKIP" not in response:
+            if response and not response.startswith("*(") and "SKIP" not in response and response not in llm.TIRED_RESPONSES:
                 await message.reply(response, mention_author=False)
                 self._last_lurk_global = now
                 self._last_lurk_per_channel[message.channel.id] = now
@@ -332,7 +330,7 @@ class AmbientCog(commands.Cog):
                     response,
                     is_bot=True,
                 )
-                logger.info("[LURK] Responded in channel %s", message.channel.id)
+                logger.info("[LURK] Respondió en el canal %s", message.channel.id)
         except Exception as error:
             logger.error("[LURK] Error: %s", error)
 
@@ -352,7 +350,7 @@ class AmbientCog(commands.Cog):
         else:
             await self.set_contextual_status()
         
-        logger.info("Status rotated")
+        logger.info("Estado rotado")
 
     @rotate_status.before_loop
     async def before_rotate_status(self) -> None:
@@ -382,11 +380,11 @@ class AmbientCog(commands.Cog):
                 system_prompt=personality.LULU_LORE,
                 temperature=0.95,
             )
-            if msg and not msg.startswith("*("):
+            if msg and not msg.startswith("*(") and msg not in llm.TIRED_RESPONSES:
                 await channel.send(msg)
-                logger.info("[AMBIENT] Random message sent to channel %s", channel_id)
+                logger.info("[AMBIENT] Mensaje aleatorio enviado al canal %s", channel_id)
         except Exception as error:
-            logger.error("Error sending random message: %s", error)
+            logger.error("Error al enviar mensaje aleatorio: %s", error)
 
     @random_message.before_loop
     async def before_random_message(self) -> None:

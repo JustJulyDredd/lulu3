@@ -1,5 +1,5 @@
 """
-bot.py — Punto de entrada de Lulu Bot 🛸
+bot.py — Punto de entrada de Lulu Bot
 Configuración del bot, logging con rotación, carga de Cogs y arranque.
 """
 
@@ -63,13 +63,13 @@ EXTENSIONS = [
 @bot.event
 async def on_ready() -> None:
     assert bot.user is not None
-    logger.info("Bot connected as %s (ID: %s)", bot.user.name, bot.user.id)
+    logger.info("Bot conectado como %s (ID: %s)", bot.user.name, bot.user.id)
 
     try:
         synced = await bot.tree.sync()
-        logger.info("Synced %s slash command(s)", len(synced))
+        logger.info("Sincronizó %s comandos slash", len(synced))
     except Exception as error:
-        logger.error("Failed to sync slash commands: %s", error)
+        logger.error("Error al sincronizar comandos slash: %s", error)
 
 
 async def main() -> None:
@@ -77,9 +77,9 @@ async def main() -> None:
         for ext in EXTENSIONS:
             try:
                 await bot.load_extension(ext)
-                logger.info("Loaded extension: %s", ext)
+                logger.info("Extensión cargada: %s", ext)
             except Exception as error:
-                logger.error("Failed to load extension %s: %s", ext, error)
+                logger.error("Error al cargar la extensión %s: %s", ext, error)
 
         config.validate_config()
         assert config.DISCORD_TOKEN is not None

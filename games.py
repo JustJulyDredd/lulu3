@@ -1,6 +1,6 @@
 """
-games.py – Módulo de juegos para Lulu Bot 🎮
-Rock-Paper-Scissors y Trivia con discord.ui.View (discord.py 2.x)
+games.py – Módulo de juegos para Lulu Bot
+Piedra, Papel o Tijera y Trivia con discord.ui.View (discord.py 2.x)
 """
 
 import json

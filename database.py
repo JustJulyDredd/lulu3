@@ -1,15 +1,21 @@
 import sqlite3
 import time
 from typing import Dict, List, Optional
+from contextlib import contextmanager
 from config import DATABASE_PATH
 
 
-def get_db_connection() -> sqlite3.Connection:
+@contextmanager
+def get_db_connection():
     """Conecta a la base de datos y activa WAL para accesos concurrentes."""
     conn = sqlite3.connect(DATABASE_PATH, timeout=10.0)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA journal_mode=WAL;")
-    return conn
+    try:
+        with conn:
+            yield conn
+    finally:
+        conn.close()
 
 
 def init_db() -> None:

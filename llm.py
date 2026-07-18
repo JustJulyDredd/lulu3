@@ -114,7 +114,7 @@ async def generate_response(
     except Exception as error:
         error_str = str(error).lower()
         logger.error(
-            "Error generating response from LLM provider %s: %s",
+            "Error al generar respuesta del proveedor LLM %s: %s",
             config.LLM_PROVIDER,
             error,
         )
@@ -131,13 +131,13 @@ async def generate_response(
             return random.choice(TIRED_RESPONSES)
 
         if config.LLM_PROVIDER == "huggingface":
-            logger.info("Attempting Hugging Face direct REST API fallback...")
+            logger.info("Intentando fallback directo de la API REST de Hugging Face...")
             try:
                 prompt = ""
                 if system_prompt:
-                    prompt += f"System: {system_prompt}\n\n"
+                    prompt += f"Sistema: {system_prompt}\n\n"
                 for msg in messages:
-                    role = "User" if msg["role"] == "user" else "Lulu" if msg["role"] == "assistant" else "System"
+                    role = "Usuario" if msg["role"] == "user" else "Lulu" if msg["role"] == "assistant" else "Sistema"
                     prompt += f"{role}: {msg['content']}\n"
                 prompt += "Lulu: "
 
@@ -158,14 +158,15 @@ async def generate_response(
                         data = res.json()
                         if isinstance(data, list) and data:
                             generated = data[0].get("generated_text", "")
-                            if "\nUser:" in generated:
-                                generated = generated.split("\nUser:")[0]
+                            for separator in ["\nUsuario:", "\nUser:"]:
+                                if separator in generated:
+                                    generated = generated.split(separator)[0]
                             if "\nLulu:" in generated:
                                 generated = generated.split("\nLulu:")[0]
                             return clean_response(generated)
-                    logger.error("HF fallback failed with status %s: %s", res.status_code, res.text)
+                    logger.error("Fallo de fallback de Hugging Face con estado %s: %s", res.status_code, res.text)
             except Exception as fallback_error:
-                logger.error("Hugging Face REST API fallback error: %s", fallback_error)
+                logger.error("Error de fallback de la API REST de Hugging Face: %s", fallback_error)
 
         return random.choice(TIRED_RESPONSES)
 
@@ -224,5 +225,35 @@ async def generate_vision_response(
                 return cleaned
         return "*(No pude ver bien la imagen...)*"
     except Exception as error:
-        logger.error("Error generating vision response: %s", error)
+        logger.error("Error al generar la respuesta de visión: %s", error)
         return "*(No pude procesar la imagen, algo salió mal 😵)*"
+
+
+async def generate_emoji_reaction(message_content: str) -> str:
+    """Pide al modelo un solo emoji que sea apropiado para reaccionar a un mensaje."""
+    client, model = _get_client_and_model()
+    prompt = (
+        "Eres Lulu, una chica de 16 años. Mira este mensaje de Discord y elige EXACTAMENTE UN emoji Unicode de reacción "
+        "que usarías para reaccionar a él de forma genuina. "
+        "No uses emojis aburridos como el pulgar arriba si no viene al caso. Sé expresiva y adolescente. "
+        "Responde ÚNICAMENTE con el emoji (1 solo carácter emoji). Sin texto, sin explicaciones, sin comillas, sin formato.\n\n"
+        f"Mensaje: {message_content}"
+    )
+    try:
+        response = await client.chat.completions.create(
+            model=model,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.7,
+            max_tokens=5,
+        )
+        emoji = response.choices[0].message.content.strip()
+        emoji = clean_response(emoji)
+        # Extraer el primer emoji del string (en caso de que retorne más texto o emojis)
+        emoji_match = re.search(r'[\U00010000-\U0010ffff\u2600-\u27ff]', emoji)
+        if emoji_match:
+            return emoji_match.group(0)
+        return emoji
+    except Exception as e:
+        logger.error("Error al generar la reacción con emoji: %s", e)
+        return None
+

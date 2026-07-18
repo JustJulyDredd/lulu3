@@ -79,7 +79,7 @@ async def download_image(url: str) -> Optional[dict[str, str]]:
                 b64 = base64.b64encode(response.content).decode("utf-8")
                 return {"base64": b64, "media_type": content_type}
     except Exception as error:
-        logger.error("Failed to download image from %s: %s", url, error)
+        logger.error("Error al descargar la imagen de %s: %s", url, error)
     return None
 
 
@@ -101,7 +101,7 @@ async def extract_images(message: discord.Message) -> List[dict[str, str]]:
             image_data = await download_image(attachment.url)
             if image_data:
                 images.append(image_data)
-                logger.info("Downloaded image: %s (%s bytes)", attachment.filename, attachment.size)
+                logger.info("Imagen descargada: %s (%s bytes)", attachment.filename, attachment.size)
     return images
 
 
@@ -121,31 +121,12 @@ async def send_reply(message: discord.Message, text: str) -> None:
 
 async def send_reply_multiple_messages(message: discord.Message, text: str) -> None:
     """
-    Divide la respuesta por '---' y envía múltiples mensajes cortos.
-    Esto hace que Lulu parezca más natural y reactiva.
+    Limpia los separadores '---' y envía la respuesta consolidada en un solo mensaje
+    para no saturar el chat de Discord.
     """
-    # Dividir por separador de múltiples mensajes
-    if "---" in text:
-        parts = text.split("---")
-        # Enviar primer mensaje con reply
-        first_msg = parts[0].strip()
-        chunks = split_message(first_msg)
-        if chunks:
-            await message.reply(chunks[0], mention_author=False)
-            for chunk in chunks[1:]:
-                await message.channel.send(chunk)
-        
-        # Enviar los demás mensajes con pequeños delays para parecer más natural
-        for part in parts[1:]:
-            part = part.strip()
-            if part:
-                await asyncio.sleep(0.5)  # Pequeña pausa para parecer natural
-                chunks = split_message(part)
-                for chunk in chunks:
-                    await message.channel.send(chunk)
-    else:
-        # Si no hay separador, comportamiento normal
-        await send_reply(message, text)
+    clean_text = text.replace("---", "\n").strip()
+    clean_text = re.sub(r'\n{3,}', '\n\n', clean_text)
+    await send_reply(message, clean_text)
 
 
 def extract_search_query(text: str) -> Optional[str]:
@@ -201,7 +182,7 @@ async def handle_spam_response(message: discord.Message) -> None:
     if user_id in _spam_cooldown:
         remaining = int(_spam_cooldown[user_id] - time.time())
         if remaining > SPAM_COOLDOWN_DURATION - 5:
-            await message.reply("ya wey, tranquilo 😒 espera un rato va?", mention_author=False)
+            await message.reply("ya oye, tranquilo 😒 espera un rato va?", mention_author=False)
 
 
 # --- Buffer de mensajes relacionados por canal ---
@@ -209,7 +190,7 @@ async def handle_spam_response(message: discord.Message) -> None:
 _channel_buffers: Dict[int, List[discord.Message]] = {}
 _channel_timers: Dict[int, asyncio.Task] = {}
 RELATION_CHECK_DELAY = 1.5  # Segundos para verificar si hay mensajes relacionados
-MESSAGE_GROUP_WAIT = 2.0    # Segundos para esperar antes de responder (agrupa mensajes)
+MESSAGE_GROUP_WAIT = 3.0    # Segundos para esperar antes de responder (agrupa mensajes de forma inteligente)
 
 
 def _extract_keywords(text: str) -> set:
@@ -227,48 +208,20 @@ def _extract_keywords(text: str) -> set:
 
 def _messages_are_related(msg1: discord.Message, msg2: discord.Message) -> bool:
     """
-    Determina si dos mensajes están relacionados (para agrupar antes de responder).
-    Criterios:
-    - Mismo usuario
-    - Enviados dentro de 5 segundos
-    - Comparten palabras clave significativas
-    - Uno es respuesta al otro o son del mismo "hilo"
+    Determina si dos mensajes están relacionados para agruparlos antes de responder.
+    Si son del mismo usuario y enviados dentro de 6 segundos, siempre están relacionados.
     """
     # Debe ser del mismo usuario
     if msg1.author.id != msg2.author.id:
         return False
 
-    # Verificar diferencia de tiempo (máx 5 segundos)
+    # Verificar diferencia de tiempo (máx 6 segundos)
     time_diff = abs((msg2.created_at - msg1.created_at).total_seconds())
-    if time_diff > 5.0:
-        return False
-
-    # Si los mensajes son muy cortos o uno está vacío, probablemente sean separados
-    content1 = msg1.content.strip()
-    content2 = msg2.content.strip()
-
-    if (not content1 and not has_images(msg1)) or (not content2 and not has_images(msg2)):
-        return False
-
-    # Comparar similitud de palabras clave
-    words1 = _extract_keywords(content1)
-    words2 = _extract_keywords(content2)
-
-    # Si comparten al menos una palabra clave, son relacionados
-    if words1 and words2 and words1 & words2:
-        return True
-
-    # Si ambos tienen imágenes, probablemente son relacionados
-    if has_images(msg1) and has_images(msg2):
-        return True
-
-    # Mensaje muy corto después de uno más largo podría ser continuación
-    short_msg = min(len(content1), len(content2))
-    long_msg = max(len(content1), len(content2))
-    if short_msg < 30 and long_msg > 50 and time_diff < 2.0:
+    if time_diff <= 6.0:
         return True
 
     return False
+
 
 
 class ConversationCog(commands.Cog):
@@ -315,94 +268,111 @@ class ConversationCog(commands.Cog):
             await self._enqueue_message(message)
 
     async def _enqueue_message(self, message: discord.Message) -> None:
-        """Encola el mensaje y agrupa si está relacionado con el anterior."""
+        """Encola el mensaje, cancelando y reiniciando el temporizador para esperar a que termine de hablar."""
         channel_id = message.channel.id
         
         # Inicializar buffer si no existe
         if channel_id not in _channel_buffers:
             _channel_buffers[channel_id] = []
         
-        # Si hay un timer pendiente, verifica si el nuevo mensaje está relacionado
+        # Si hay un timer pendiente y el nuevo mensaje está relacionado con el último en el buffer
         if channel_id in _channel_timers and _channel_timers[channel_id] and not _channel_timers[channel_id].done():
-            # Si está relacionado, solo agrega al buffer
             if _channel_buffers[channel_id] and _messages_are_related(_channel_buffers[channel_id][-1], message):
+                # Agregar al buffer
                 _channel_buffers[channel_id].append(message)
                 logger.debug(f"[BUFFER] Mensaje relacionado agregado (canal {channel_id}, total: {len(_channel_buffers[channel_id])})")
-                return
+                # Cancelamos el timer anterior para reiniciar la espera
+                _channel_timers[channel_id].cancel()
             else:
-                # No están relacionados: cancela el timer anterior y procesa inmediatamente
+                # No están relacionados: cancelamos el timer anterior y procesamos el buffer anterior inmediatamente
                 logger.debug(f"[BUFFER] Mensaje no relacionado detectado - procesando buffer anterior primero")
                 _channel_timers[channel_id].cancel()
-        
-        # Agregar mensaje al buffer
-        _channel_buffers[channel_id] = [message]
-        
-        # Crear timer para procesar después de una pausa
+                await self._process_buffer(channel_id)
+                # Inicializar buffer para el nuevo mensaje
+                _channel_buffers[channel_id] = []
+
+        # Si el buffer está vacío (ya sea porque es el primero o porque procesamos el anterior)
+        if not _channel_buffers[channel_id]:
+            _channel_buffers[channel_id] = [message]
+            
+        # Crear un nuevo timer para procesar después de la pausa
         _channel_timers[channel_id] = asyncio.create_task(self._process_buffer_with_delay(channel_id))
 
     async def _process_buffer_with_delay(self, channel_id: int) -> None:
         """Espera a que no haya más mensajes relacionados, luego procesa el buffer."""
         try:
             await asyncio.sleep(MESSAGE_GROUP_WAIT)
-            
-            if channel_id in _channel_buffers and _channel_buffers[channel_id]:
-                messages = _channel_buffers[channel_id]
-                logger.info(f"[BUFFER] Procesando {len(messages)} mensaje(s) agrupado(s) en canal {channel_id}")
-                
-                # Procesar todos los mensajes del buffer
-                for msg in messages:
-                    await self._process_single_message(msg)
-                
-                # Limpiar buffer
-                _channel_buffers[channel_id] = []
-                _channel_timers[channel_id] = None
+            await self._process_buffer(channel_id)
         except asyncio.CancelledError:
             pass
         except Exception as e:
-            logger.error(f"Error in buffer processing for channel {channel_id}: {e}")
+            logger.error(f"Error al procesar el buffer del canal {channel_id}: {e}")
 
-    async def _process_single_message(self, message: discord.Message) -> None:
-        """Procesa un único mensaje y responde."""
-        channel_id = message.channel.id
-        author = message.author
+    async def _process_buffer(self, channel_id: int) -> None:
+        """Procesa el buffer acumulado de un canal."""
+        if channel_id in _channel_buffers and _channel_buffers[channel_id]:
+            messages = _channel_buffers[channel_id]
+            # Limpiar buffer y timer antes de procesar para evitar reentrada o re-cancelación
+            _channel_buffers[channel_id] = []
+            _channel_timers[channel_id] = None
+            
+            logger.info(f"[BUFFER] Procesando {len(messages)} mensaje(s) agrupado(s) en canal {channel_id}")
+            await self._process_message_group(messages)
+
+    async def _process_message_group(self, messages: List[discord.Message]) -> None:
+        """Procesa un grupo de mensajes relacionados de un usuario y responde al último."""
+        if not messages:
+            return
+
+        last_message = messages[-1]
+        channel_id = last_message.channel.id
+        author = last_message.author
 
         profile = database.get_user_profile(author.id, author.name)
         database.increment_user_interactions(author.id)
 
         all_images: List[dict[str, str]] = []
+        
+        # Guardar todos los mensajes en la base de datos y extraer imágenes
+        for msg in messages:
+            content = msg.content
+            if self.bot.user in msg.mentions:
+                content = content.replace(f"<@{self.bot.user.id}>", "").replace(f"<@!{self.bot.user.id}>", "")
+            clean_content = content.strip()
 
-        content = message.content
-        if self.bot.user in message.mentions:
-            content = content.replace(f"<@{self.bot.user.id}>", "").replace(f"<@!{self.bot.user.id}>", "")
-        clean_content = content.strip()
+            if has_images(msg):
+                extracted = await extract_images(msg)
+                all_images.extend(extracted)
 
-        if has_images(message):
-            extracted = await extract_images(message)
-            all_images.extend(extracted)
+            history_content = clean_content or "(envió una imagen)"
+            database.add_chat_message(
+                channel_id,
+                user_id=msg.author.id,
+                username=msg.author.name,
+                content=history_content,
+                is_bot=False,
+            )
 
-        if not clean_content and not all_images:
-            await message.reply("🛸 ¿Sí? ¡Aquí estoy! Dime qué onda 👾", mention_author=False)
-            return
+        # Usar el contenido del último mensaje para la respuesta principal
+        content_last = last_message.content
+        if self.bot.user in last_message.mentions:
+            content_last = content_last.replace(f"<@{self.bot.user.id}>", "").replace(f"<@!{self.bot.user.id}>", "")
+        clean_content_last = content_last.strip()
+
+        if not clean_content_last and not all_images:
+            clean_content_last = ""
 
         if (
-            message.reference is not None
-            and message.reference.resolved is not None
-            and isinstance(message.reference.resolved, discord.Message)
-            and message.reference.resolved.author == self.bot.user
+            last_message.reference is not None
+            and last_message.reference.resolved is not None
+            and isinstance(last_message.reference.resolved, discord.Message)
+            and last_message.reference.resolved.author == self.bot.user
         ):
-            quoted_content = message.reference.resolved.content
+            quoted_content = last_message.reference.resolved.content
             if quoted_content:
-                clean_content = f'[Respondiendo a tu mensaje: "{quoted_content[:200]}"] {clean_content}'
+                clean_content_last = f'[Respondiendo a tu mensaje: "{quoted_content[:200]}"] {clean_content_last}'
 
-        history_content = clean_content or "(envió una imagen)"
-        database.add_chat_message(
-            channel_id,
-            user_id=author.id,
-            username=author.name,
-            content=history_content,
-            is_bot=False,
-        )
-
+        # Obtener historial consolidado (ya incluye todos los nuevos mensajes)
         history = database.get_chat_history(channel_id, limit=25)
         participating_user_ids = {msg["user_id"] for msg in history if not msg["is_bot"]}
 
@@ -415,9 +385,9 @@ class ConversationCog(commands.Cog):
         formatted_messages = personality.format_history_for_llm(history)
 
         # --- Búsqueda web ---
-        search_query = extract_search_query(clean_content)
+        search_query = extract_search_query(clean_content_last)
         if search_query:
-            logger.info("[SEARCH] Triggered web search for: %s", search_query)
+            logger.info("[BÚSQUEDA] Inició búsqueda web para: %s", search_query)
             try:
                 search_results = await search.search_web(search_query, max_results=3)
                 system_prompt += (
@@ -429,13 +399,13 @@ class ConversationCog(commands.Cog):
                     "Menciona las fuentes solo si el usuario lo pide."
                 )
             except Exception as error:
-                logger.error("[SEARCH] Error during web search: %s", error)
+                logger.error("[BÚSQUEDA] Error durante la búsqueda web: %s", error)
 
         # --- Generar respuesta ---
-        async with message.channel.typing():
+        async with last_message.channel.typing():
             if all_images:
                 response_text = await llm.generate_vision_response(
-                    text=clean_content,
+                    text=clean_content_last,
                     image_base64_list=all_images,
                     system_prompt=system_prompt,
                     history=formatted_messages[:-1] if len(formatted_messages) > 1 else None,
@@ -443,7 +413,7 @@ class ConversationCog(commands.Cog):
             else:
                 response_text = await llm.generate_response(formatted_messages, system_prompt)
 
-        await send_reply_multiple_messages(message, response_text)
+        await send_reply_multiple_messages(last_message, response_text)
 
         database.add_chat_message(
             channel_id,
@@ -456,7 +426,7 @@ class ConversationCog(commands.Cog):
         # --- Memorias de imágenes ---
         if all_images:
             await self._process_image_memories(
-                author, all_images, message, formatted_messages
+                author, all_images, last_message, formatted_messages
             )
 
         # --- Consolidación de memoria periódica ---
@@ -527,7 +497,7 @@ class ConversationCog(commands.Cog):
                 database.add_image_memory(author.id, author.name, image_summary)
 
         except Exception as error:
-            logger.error("Error generating/storing image summary: %s", error)
+            logger.error("Error al generar/guardar el resumen de la imagen: %s", error)
 
     async def _consolidate_memory_with_images(
         self,
@@ -582,9 +552,9 @@ Instrucciones para la actualización:
             new_summary = await llm.generate_summary(consolidation_prompt)
             if new_summary and not new_summary.startswith("*("):
                 database.update_user_profile_summary(user_id, new_summary)
-                logger.info("Memory consolidated for @%s (with image context)", username)
+                logger.info("Memoria consolidada para @%s (con contexto de imagen)", username)
         except Exception as error:
-            logger.error("Error consolidating memory for @%s: %s", username, error)
+            logger.error("Error al consolidar la memoria para @%s: %s", username, error)
 
 
 async def setup(bot: commands.Bot):

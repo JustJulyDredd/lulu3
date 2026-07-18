@@ -1,1 +1,1 @@
-# Cogs package for Lulu Bot
+# Paquete de Cogs para Lulu Bot

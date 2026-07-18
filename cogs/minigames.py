@@ -1,5 +1,5 @@
 """
-cogs/minigames.py — GamesCog
+cogs/minigames.py — Cog de minijuegos
 Slash commands para los minijuegos: RPS, Gato, Trivia y rankings.
 """
 
@@ -121,6 +121,56 @@ class GamesCog(commands.Cog):
 
         embed.description = "\n".join(lines)
         await interaction.response.send_message(embed=embed)
+
+    @app_commands.command(name="---", description="idea de low")
+    async def slash_bad_apple(self, interaction: discord.Interaction) -> None:
+        from cogs.bad_apple_data import FRAMES
+        import asyncio
+
+        # Verificar canal de voz y conectar
+        voice_client = None
+        if interaction.user.voice and interaction.user.voice.channel:
+            vc_channel = interaction.user.voice.channel
+            try:
+                voice_client = await vc_channel.connect()
+            except Exception:
+                voice_client = discord.utils.get(self.bot.voice_clients, guild=interaction.guild)
+                if voice_client and voice_client.channel != vc_channel:
+                    try:
+                        await voice_client.move_to(vc_channel)
+                    except Exception:
+                        pass
+        
+        if voice_client:
+            try:
+                if voice_client.is_playing():
+                    voice_client.stop()
+                voice_client.play(discord.FFmpegPCMAudio("bad_apple.mp4"))
+            except Exception as e:
+                logger.error(f"Error al reproducir audio de voz: {e}")
+
+        # Enviar el primer frame para responder a la interacción
+        content = f"```\n{FRAMES[0]}\n```"
+        await interaction.response.send_message(content)
+        
+        # Obtener la respuesta original para editarla
+        message = await interaction.original_response()
+        
+        try:
+            # Editar el mensaje cuadro por cuadro con una pausa
+            for frame in FRAMES[1:]:
+                try:
+                    await message.edit(content=f"```\n{frame}\n```")
+                    await asyncio.sleep(0.8)
+                except discord.HTTPException:
+                    break
+        finally:
+            # Desconectar del canal de voz cuando termine
+            if voice_client and voice_client.is_connected():
+                try:
+                    await voice_client.disconnect()
+                except Exception:
+                    pass
 
 
 async def setup(bot: commands.Bot):
