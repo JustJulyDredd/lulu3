@@ -1,5 +1,5 @@
 """
-bot.py — Punto de entrada de Lulu Bot
+bot/main.py — Punto de entrada de Lulu Bot 🛸
 Configuración del bot, logging con rotación, carga de Cogs y arranque.
 """
 
@@ -7,13 +7,12 @@ import argparse
 import asyncio
 import logging
 from logging.handlers import RotatingFileHandler
+from pathlib import Path
 
 import discord
 from discord.ext import commands
 
-import config
-import database
-import os
+from bot import config, database
 
 # --- Logging con rotación ---
 
@@ -23,8 +22,9 @@ console_handler = logging.StreamHandler()
 console_handler.setLevel(logging.INFO)
 console_handler.setFormatter(logging.Formatter(LOG_FORMAT))
 
+_log_path = Path(__file__).parent.parent / "lulu_logs.txt"
 file_handler = RotatingFileHandler(
-    "lulu_logs.txt",
+    _log_path,
     maxBytes=5 * 1024 * 1024,  # 5 MB
     backupCount=3,
     encoding="utf-8",
@@ -52,24 +52,24 @@ bot = commands.Bot(
 # --- Cogs ---
 
 EXTENSIONS = [
-    "cogs.bump",
-    "cogs.conversation",
-    "cogs.minigames",
-    "cogs.social",
-    "cogs.ambient",
+    "bot.cogs.bump",
+    "bot.cogs.conversation",
+    "bot.cogs.minigames",
+    "bot.cogs.social",
+    "bot.cogs.ambient",
 ]
 
 
 @bot.event
 async def on_ready() -> None:
     assert bot.user is not None
-    logger.info("Bot conectado como %s (ID: %s)", bot.user.name, bot.user.id)
+    logger.info("Bot connected as %s (ID: %s)", bot.user.name, bot.user.id)
 
     try:
         synced = await bot.tree.sync()
-        logger.info("Sincronizó %s comandos slash", len(synced))
+        logger.info("Synced %s slash command(s)", len(synced))
     except Exception as error:
-        logger.error("Error al sincronizar comandos slash: %s", error)
+        logger.error("Failed to sync slash commands: %s", error)
 
 
 async def main() -> None:
@@ -77,9 +77,9 @@ async def main() -> None:
         for ext in EXTENSIONS:
             try:
                 await bot.load_extension(ext)
-                logger.info("Extensión cargada: %s", ext)
+                logger.info("Loaded extension: %s", ext)
             except Exception as error:
-                logger.error("Error al cargar la extensión %s: %s", ext, error)
+                logger.error("Failed to load extension %s: %s", ext, error)
 
         config.validate_config()
         assert config.DISCORD_TOKEN is not None

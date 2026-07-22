@@ -1,8 +1,8 @@
 import sqlite3
+from contextlib import contextmanager
 import time
 from typing import Dict, List, Optional
-from contextlib import contextmanager
-from config import DATABASE_PATH
+from bot.config import DATABASE_PATH
 
 
 @contextmanager

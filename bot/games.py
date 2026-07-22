@@ -1,14 +1,16 @@
 """
-games.py – Módulo de juegos para Lulu Bot
-Piedra, Papel o Tijera y Trivia con discord.ui.View (discord.py 2.x)
+games.py – Módulo de juegos para Lulu Bot 🎮
+Rock-Paper-Scissors y Trivia con discord.ui.View (discord.py 2.x)
 """
 
 import json
 import random
+from pathlib import Path
+
 import discord
 from discord.ui import View, Button
-import llm
-import database
+
+from bot import llm, database
 
 # ─────────────────────────────────────────────
 # Rock-Paper-Scissors (Piedra, Papel, Tijera)
@@ -305,9 +307,8 @@ def _load_trivia_bank():
     if _trivia_bank is not None:
         return _trivia_bank
     
-    import os
-    path = "trivia_bank.json"
-    if os.path.exists(path):
+    path = Path(__file__).parent / "data" / "trivia_bank.json"
+    if path.exists():
         try:
             with open(path, "r", encoding="utf-8") as f:
                 _trivia_bank = json.load(f)

@@ -13,10 +13,10 @@ import discord
 from discord import app_commands
 from discord.ext import commands, tasks
 
-import config
-import database
-import llm
-import personality
+import bot.config as config
+import bot.database as database
+import bot.llm as llm
+import bot.personality as personality
 
 logger = logging.getLogger("lulu.social")
 
@@ -221,7 +221,7 @@ class SocialCog(commands.Cog):
                 temperature=0.9,
             )
         except Exception as error:
-            logger.error("Error al generar la respuesta de estado de ánimo: %s", error)
+            logger.error("Error generating mood response: %s", error)
             mood = "la verdad ni yo sé cómo me siento ahorita jaja 🤷"
 
         embed = discord.Embed(
@@ -287,7 +287,7 @@ class SocialCog(commands.Cog):
             else:
                 await channel.send(f"Bienvenid@ {member.mention}! 👾✨")
         except Exception as error:
-            logger.error("Error al enviar el mensaje de bienvenida: %s", error)
+            logger.error("Error sending welcome message: %s", error)
             await channel.send(f"Bienvenid@ {member.mention}! 👾✨")
 
     # --- Cumpleaños (task loop) ---
@@ -330,10 +330,10 @@ class SocialCog(commands.Cog):
                 else:
                     await channel.send(f"<@{user_id}> Feliz cumpleaños!! 🎂🎉🛸")
             except Exception as error:
-                logger.error("Error al enviar el mensaje de cumpleaños: %s", error)
+                logger.error("Error sending birthday message: %s", error)
                 await channel.send(f"<@{user_id}> Feliz cumpleaños!! 🎂🎉🛸")
 
-            logger.info("Mensaje de cumpleaños enviado para @%s", username)
+            logger.info("Sent birthday message for @%s", username)
 
     @check_birthdays.before_loop
     async def before_check_birthdays(self) -> None:
