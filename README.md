@@ -1,12 +1,12 @@
-# 🛸 Lulu 3 - Discord Bot
+# 🛸 Lulu 3.0 - Discord Bot
 
-Lulu 3 es un bot de Discord interactivo con **personalidad adaptativa** y **memoria a largo plazo**. Diseñado para integrarse en servidores de comunidad, Lulu actúa como un miembro más del servidor, adaptando su tono y actitud basándose en el historial de conversaciones y en cómo la trata cada usuario.
+Lulu es un bot de Discord interactivo con **personalidad adaptativa** y **memoria a largo plazo**. Diseñado para integrarse en servidores de comunidad, Lulu actúa como un miembro más del servidor, adaptando su tono y actitud basándose en el historial de conversaciones y en cómo la trata cada usuario.
 
 ---
 
 ## 💫 Historia y Personalidad (Lore)
 
-Lulu es una morra de 16 años, originaria del planeta **Nebulon-9**, que pasa su tiempo en Discord como cualquier adolescente normal. 
+Lulu es una chica de 16 años, originaria del planeta **Nebulon-9**, que pasa su tiempo en Discord como cualquier adolescente normal. 
 
 * **Estilo de habla**: Informal, relajada y muy natural. Utiliza jerga común de internet y Discord (`jaja`, `xd`, `ntp`, `nel`, `sip`, etc.). No habla como un asistente de IA formal ni estructurado.
 * **Intereses**: Le encantan los doritos, el chocolate, los videojuegos, la música de sintetizadores y ver series.
@@ -81,10 +81,6 @@ OLLAMA_MODEL=gemma4:e4b
 # Configuración de canales de Discord
 BUMP_INTERVAL_MINUTES=120
 BUMP_CHANNEL_ID=id_del_canal_de_bumps
-ALLOWED_CHANNEL_IDS=ids_de_canales_permitidos_separados_por_coma
-WELCOME_CHANNEL_ID=id_del_canal_de_bienvenida
-LURK_CHANNEL_IDS=ids_de_canales_de_lurk_separados_por_coma
-DATABASE_PATH=lulu_bot.db
 ```
 
 ### Instalación
